@@ -1,0 +1,3 @@
+EXCLUDES="README.md LICENSE .git .gitignore"
+DOTFILES_DIRS="$HOME/.dotfiles"
+SYMLINK_DIRS=""
