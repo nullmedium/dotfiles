@@ -1,0 +1,95 @@
+#!/bin/bash
+# Bash configuration file
+
+# Source common profile
+[ -f "$HOME/.shell-common/profile.common" ] && source "$HOME/.shell-common/profile.common"
+
+# Bash-specific configurations
+# Enable bash completion if available
+if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+elif [ -f "$HOMEBREW_PREFIX/etc/bash_completion" ]; then
+    . "$HOMEBREW_PREFIX/etc/bash_completion"
+fi
+
+# Source fzf files for bash
+if [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
+if [ -f /usr/share/doc/fzf/examples/completion.bash ]; then
+    source /usr/share/doc/fzf/examples/completion.bash
+fi
+
+# History configuration
+export HISTCONTROL=ignoreboth:erasedups
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+shopt -s histappend
+
+# Check window size after each command
+shopt -s checkwinsize
+
+# Enable globstar (** pattern)
+shopt -s globstar 2> /dev/null
+
+# Aliases (same as zsh)
+alias fzp='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
+alias fzd='cd $(fd --type d --hidden --follow --exclude .git | fzf --preview "tree -C {} | head -200")'
+alias fzv='vim $(fzf --preview "bat --color=always --style=numbers --line-range=:500 {}")'
+alias fgb='git branch | fzf | xargs git checkout'
+alias fgl='git log --oneline | fzf --preview "git show --color=always {1}" | awk "{print \$1}" | xargs git show'
+
+# Tmux session switcher function
+fts() {
+    local session
+    session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --preview "tmux list-windows -t {} | column -t" --preview-window=down:20%) && tmux switch-client -t "$session"
+}
+
+# Bash Prompt Configuration
+# Colors
+RED='\[\033[0;31m\]'
+GREEN='\[\033[0;32m\]'
+YELLOW='\[\033[0;33m\]'
+BLUE='\[\033[0;34m\]'
+MAGENTA='\[\033[0;35m\]'
+CYAN='\[\033[0;36m\]'
+GRAY='\[\033[0;90m\]'
+RESET='\[\033[0m\]'
+
+# Git prompt function
+git_prompt_info() {
+    local ref
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || \
+    ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+
+    # Get git status
+    local git_status=""
+    local STATUS=$(git status --porcelain 2> /dev/null | tail -1)
+
+    if [[ -n $STATUS ]]; then
+        git_status=" ${YELLOW}✗${RESET}"
+    else
+        git_status=" ${GREEN}✓${RESET}"
+    fi
+
+    echo " ${CYAN}(${ref#refs/heads/}${git_status}${CYAN})${RESET}"
+}
+
+# Virtual environment indicator
+virtualenv_prompt_info() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        echo "${MAGENTA}($(basename $VIRTUAL_ENV))${RESET} "
+    fi
+}
+
+# Username and hostname for SSH sessions
+user_host_prompt() {
+    if [[ -n "$SSH_CONNECTION" ]]; then
+        echo "${YELLOW}\u@\h${RESET} "
+    fi
+}
+
+# Set prompt
+PROMPT_COMMAND='PS1="$(user_host_prompt)$(virtualenv_prompt_info)${BLUE}\W${RESET}$(git_prompt_info) ${GREEN}➜${RESET} "'

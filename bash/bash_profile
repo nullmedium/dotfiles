@@ -1,0 +1,5 @@
+#!/bin/bash
+# Bash profile - loaded for login shells
+
+# Source bashrc if it exists
+[ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"

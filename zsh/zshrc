@@ -1,51 +1,26 @@
-export GOPATH=$HOME/go
-export PATH="$HOME/.cargo/bin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/jens/.docker/completions $fpath)
+#!/bin/zsh
+# Zsh configuration file
+
+# Source common profile
+[ -f "$HOME/.shell-common/profile.common" ] && source "$HOME/.shell-common/profile.common"
+
+# Zsh-specific configurations
+# Docker CLI completions (macOS specific path)
+if [ "$OS" = "macos" ] && [ -d "/Users/jens/.docker/completions" ]; then
+    fpath=(/Users/jens/.docker/completions $fpath)
+fi
+
+# Enable completions
 autoload -Uz compinit
 compinit
-# End of Docker CLI completions
-export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.emacs.d/bin:$PATH"
-export PERPLEXITY_API_KEY="your-api-key"
 
-# FZF configuration
-# Enable fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
-
-# FZF environment variables
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-export FZF_DEFAULT_OPTS='
-  --height 40%
-  --layout=reverse
-  --border
-  --preview "bat --color=always --style=numbers --line-range=:500 {}"
-  --preview-window=right:60%:wrap
-  --bind "ctrl-/:toggle-preview"
-  --bind "ctrl-y:execute-silent(echo {} | pbcopy)"
-'
-
-# Use fd for CTRL-T
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_CTRL_T_OPTS="
-  --preview 'bat --color=always --style=numbers --line-range=:500 {}'
-  --preview-window=right:60%:wrap
-"
-
-# Use fd for ALT-C
-export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
-
-# Better history search with fzf
-export FZF_CTRL_R_OPTS="
-  --preview 'echo {}'
-  --preview-window=down:3:wrap
-  --bind 'ctrl-y:execute-silent(echo {} | pbcopy)'
-"
-
-# FZF-tmux integration
-export FZF_TMUX_OPTS='-p80%,60%'
+# Source fzf files for Ubuntu/Debian systems
+if [[ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
+if [[ -f /usr/share/doc/fzf/examples/completion.zsh ]]; then
+  source /usr/share/doc/fzf/examples/completion.zsh
+fi
 
 # Useful aliases with fzf
 alias fzp='fzf --preview "bat --color=always --style=numbers --line-range=:500 {}"'
