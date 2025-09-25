@@ -87,7 +87,7 @@ user_host_prompt() {
 
 # Time in 24-hour format
 time_prompt() {
-  echo "%{$fg[gray]%}%T%{$reset_color%}"
+  echo "%{$fg[lightgray]%}%T%{$reset_color%}"
 }
 
 # Main prompt
