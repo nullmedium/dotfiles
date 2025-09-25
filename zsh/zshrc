@@ -1,6 +1,17 @@
 #!/bin/zsh
 # Zsh configuration file
 
+# History configuration for persistent history across tmux sessions
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=50000
+export SAVEHIST=50000
+setopt SHARE_HISTORY          # Share history between all sessions
+setopt HIST_IGNORE_ALL_DUPS   # Remove older duplicate entries from history
+setopt HIST_FIND_NO_DUPS      # Don't display duplicates when searching history
+setopt HIST_REDUCE_BLANKS     # Remove superfluous blanks from history items
+setopt INC_APPEND_HISTORY     # Write to history file immediately, not when shell exits
+setopt HIST_VERIFY            # Don't execute immediately upon history expansion
+
 # Source common profile
 [ -f "$HOME/.shell-common/profile.common" ] && source "$HOME/.shell-common/profile.common"
 
