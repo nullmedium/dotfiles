@@ -123,3 +123,5 @@ function precmd() {
     unset timer
   fi
 }
+
+source /home/jens/.config/broot/launcher/bash/br
