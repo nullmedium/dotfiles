@@ -14,10 +14,10 @@ local = "~/.dotfiles/zsh"
 use = ["spaceship.zsh"]
 apply = ["source"]
 
-# Oh My Zsh library - load all lib files
+# Oh My Zsh library - load all lib files except tests
 [plugins.oh-my-zsh-lib]
 local = "~/.dotfiles/zsh/oh-my-zsh/lib"
-use = ["*.zsh"]
+use = ["{async_prompt,bzr,clipboard,cli,compfix,completion,correction,diagnostics,directories,functions,git,grep,history,key-bindings,misc,nvm,prompt_info_functions,spectrum,termsupport,theme-and-appearance,vcs_info}.zsh"]
 apply = ["source"]
 
 # Oh My Zsh plugins
