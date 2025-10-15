@@ -1,0 +1,93 @@
+shell = "zsh"
+
+[templates]
+defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}{{ hooks?.post | nl }}"
+
+# Spaceship prompt - loaded first
+[plugins.spaceship]
+local = "~/.dotfiles/zsh/spaceship-prompt"
+use = ["spaceship.zsh"]
+apply = ["source"]
+
+[plugins.spaceship-config]
+local = "~/.dotfiles/zsh"
+use = ["spaceship.zsh"]
+apply = ["source"]
+
+# Oh My Zsh library - load all lib files
+[plugins.oh-my-zsh-lib]
+local = "~/.dotfiles/zsh/oh-my-zsh/lib"
+use = ["*.zsh"]
+apply = ["source"]
+
+# Oh My Zsh plugins
+[plugins.git]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/git"
+use = ["git.plugin.zsh"]
+apply = ["source"]
+
+[plugins.docker]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/docker"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.docker-compose]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/docker-compose"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.tmux]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/tmux"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.z]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/z"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.command-not-found]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/command-not-found"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.history-substring-search]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/history-substring-search"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.colored-man-pages]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/colored-man-pages"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.extract]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/extract"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.sudo]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/sudo"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.cp]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/cp"
+use = ["*.zsh"]
+apply = ["source"]
+
+[plugins.dirhistory]
+local = "~/.dotfiles/zsh/oh-my-zsh/plugins/dirhistory"
+use = ["*.zsh"]
+apply = ["source"]
+
+# Custom plugins (submodules)
+[plugins.zsh-autosuggestions]
+local = "~/.dotfiles/zsh/custom-plugins/zsh-autosuggestions"
+use = ["zsh-autosuggestions.zsh"]
+apply = ["source"]
+
+[plugins.zsh-syntax-highlighting]
+local = "~/.dotfiles/zsh/custom-plugins/zsh-syntax-highlighting"
+use = ["zsh-syntax-highlighting.zsh"]
+apply = ["source"]

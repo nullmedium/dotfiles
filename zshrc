@@ -124,45 +124,16 @@ fts() {
 #   fi
 # }
 
-# Oh My Zsh configuration
+# Oh My Zsh compatibility settings (for OMZ plugins)
 export ZSH="$HOME/.dotfiles/zsh/oh-my-zsh"
+export ZSH_CACHE_DIR="$HOME/.cache/oh-my-zsh"
+mkdir -p "$ZSH_CACHE_DIR/completions"
 
-# Use Spaceship prompt (already configured as submodule)
-# ZSH_THEME is not needed when using external prompt like Spaceship
-ZSH_THEME=""
+# Sheldon plugin manager
+export SHELDON_CONFIG_FILE="$HOME/.dotfiles/sheldon/plugins.toml"
 
-# Oh My Zsh settings
-CASE_SENSITIVE="false"
-HYPHEN_INSENSITIVE="true"
-DISABLE_AUTO_UPDATE="true"  # Managed via git submodule
-DISABLE_UPDATE_PROMPT="true"
-ENABLE_CORRECTION="true"
-COMPLETION_WAITING_DOTS="true"
-HIST_STAMPS="yyyy-mm-dd"
-
-# Plugins
-plugins=(
-  git
-  docker
-  docker-compose
-  tmux
-  z
-  command-not-found
-  history-substring-search
-  colored-man-pages
-  extract
-  sudo
-  cp
-  dirhistory
-  zsh-autosuggestions
-  zsh-syntax-highlighting  # Must be last
-)
-
-source $ZSH/oh-my-zsh.sh
-
-# Load Spaceship prompt
-source ~/.dotfiles/zsh/spaceship-prompt/spaceship.zsh
-source ~/.dotfiles/zsh/spaceship.zsh
+# Cache Sheldon plugins for faster startup
+eval "$(sheldon source)"
 
 # Plugin customizations
 # zsh-autosuggestions
