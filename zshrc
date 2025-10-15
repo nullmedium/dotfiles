@@ -48,11 +48,7 @@ fts() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --preview "tmux list-windows -t {} | column -t" --preview-window=down:20%) && tmux switch-client -t "$session"
 }
 
-# Spaceship Prompt
-source ~/.dotfiles/zsh/spaceship-prompt/spaceship.zsh-theme
-source ~/.dotfiles/zsh/spaceship.zsh
-
-# Enhanced Zsh Prompt Configuration (replaced by Spaceship)
+# Enhanced Zsh Prompt Configuration (now handled by Oh My Zsh + Spaceship)
 # Enable prompt substitution and colors
 # setopt PROMPT_SUBST
 # autoload -U colors && colors
@@ -127,5 +123,57 @@ source ~/.dotfiles/zsh/spaceship.zsh
 #     unset timer
 #   fi
 # }
+
+# Oh My Zsh configuration
+export ZSH="$HOME/.dotfiles/zsh/oh-my-zsh"
+
+# Use Spaceship prompt (already configured as submodule)
+# ZSH_THEME is not needed when using external prompt like Spaceship
+ZSH_THEME=""
+
+# Oh My Zsh settings
+CASE_SENSITIVE="false"
+HYPHEN_INSENSITIVE="true"
+DISABLE_AUTO_UPDATE="true"  # Managed via git submodule
+DISABLE_UPDATE_PROMPT="true"
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+HIST_STAMPS="yyyy-mm-dd"
+
+# Plugins
+plugins=(
+  git
+  docker
+  docker-compose
+  tmux
+  z
+  command-not-found
+  history-substring-search
+  colored-man-pages
+  extract
+  sudo
+  cp
+  dirhistory
+  zsh-autosuggestions
+  zsh-syntax-highlighting  # Must be last
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# Load Spaceship prompt
+source ~/.dotfiles/zsh/spaceship-prompt/spaceship.zsh
+source ~/.dotfiles/zsh/spaceship.zsh
+
+# Plugin customizations
+# zsh-autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+
+# Key bindings for history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
 
 source /home/jenlue/.config/broot/launcher/bash/br
